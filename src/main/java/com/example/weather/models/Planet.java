@@ -23,8 +23,7 @@ public class Planet {
   private Long id;
 
   @Enumerated(EnumType.STRING)
+  @Column(unique = true)
   private PlanetName name;
   public Planet(PlanetName name) { this.name = name; }
-
-
 }

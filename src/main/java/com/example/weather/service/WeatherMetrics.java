@@ -2,8 +2,6 @@ package com.example.weather.service;
 
 import com.example.weather.models.Weather;
 
-public interface WeatherComputation {
+public interface WeatherMetrics {
   double compute(Weather weather);
-
-  String getName();
 }

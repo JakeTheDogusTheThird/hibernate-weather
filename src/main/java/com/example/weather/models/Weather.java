@@ -18,22 +18,28 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "weathers")
+@Table(name = "weather")
 public class Weather {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column
   private LocalDate day;
+
+  @Column
   private int temperature;
+
+  @Column
   private int pressure;
+
   @Column(name = "wind_speed")
   private int windSpeed;
 
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   private Planet planet;
 
-  public Weather(LocalDate day, int temperature, int pressure, int windSpeed, Planet planet) {
+  public Weather(Planet planet, LocalDate day, int temperature, int pressure, int windSpeed) {
     this.day = day;
     this.temperature = temperature;
     this.pressure = pressure;

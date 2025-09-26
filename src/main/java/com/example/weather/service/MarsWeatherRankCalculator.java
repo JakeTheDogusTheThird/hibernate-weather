@@ -6,11 +6,9 @@ public class MarsWeatherRankCalculator implements RankCalculator {
   private static final int IDEAL_TEMPERATURE = -60;
   private static final int IDEAL_PRESSURE = 610;
   private static final int IDEAL_WIND_SPEED = 0;
-
   private static final double TEMPERATURE_NORMALIZATION = 65.0; // max deviation from ideal
   private static final double PRESSURE_NORMALIZATION = 400.0;    // max deviation from ideal
   private static final double WIND_NORMALIZATION = 30.0;
-
   private static final int MAX_RANK = 1000;
   private static final double TEMPERATURE_WEIGHT = 0.5;
   private static final double PRESSURE_WEIGHT = 0.3;
