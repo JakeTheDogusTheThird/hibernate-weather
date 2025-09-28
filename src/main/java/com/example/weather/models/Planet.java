@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -26,4 +28,17 @@ public class Planet {
   @Column(unique = true)
   private PlanetName name;
   public Planet(PlanetName name) { this.name = name; }
+
+  @Override
+  public final boolean equals(Object o) {
+    if (!(o instanceof Planet planet)) {
+      return false;
+    }
+    return name == planet.name;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(name);
+  }
 }

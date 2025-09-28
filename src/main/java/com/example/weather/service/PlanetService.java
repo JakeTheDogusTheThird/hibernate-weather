@@ -25,15 +25,15 @@ public class PlanetService {
   }
 
   public Planet create(Planet planet) {
-    if (isValid(planet)) {
-      this.planetDao.save(planet);
+    if (planetValidator.isValid(planet)) {
+      return this.planetDao.save(planet);
     }
     return null;
   }
 
   public Planet update(Planet planet) {
-    if (isValid(planet)) {
-      return this.planetDao.save(planet);
+    if (planetValidator.isValid(planet)) {
+      return this.planetDao.update(planet);
     }
     return null;
   }
@@ -46,7 +46,5 @@ public class PlanetService {
     return this.planetDao.findAll();
   }
 
-  public boolean isValid(Planet planet) {
-    return this.planetValidator.isValid(planet);
-  }
+
 }

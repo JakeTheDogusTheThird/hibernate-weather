@@ -1,5 +1,4 @@
 package com.example.weather.repositories;
-import com.example.weather.models.Weather;
 
 import java.io.Serializable;
 import java.util.List;

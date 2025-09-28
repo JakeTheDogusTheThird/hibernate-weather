@@ -12,43 +12,24 @@ import java.util.Optional;
 
 public class WeatherService {
   private final WeatherDao weatherDao;
-  private final Map<PlanetName, WeatherValidator> validators;
+  private final WeatherValidator validator;
   private final Map<PlanetName, RankCalculator> calculators;
   private final Map<MetricType, WeatherMetrics> metrics;
-  private final PlanetService planetService;
 
   public WeatherService(
       WeatherDao weatherDao,
-      Map<PlanetName, WeatherValidator> validators,
+      WeatherValidator validator,
       Map<PlanetName, RankCalculator> calculators,
-      Map<MetricType, WeatherMetrics> metrics,
-      PlanetService planetService
+      Map<MetricType, WeatherMetrics> metrics
   ) {
     this.weatherDao = weatherDao;
-    this.validators = validators;
+    this.validator = validator;
     this.calculators = calculators;
     this.metrics = metrics;
-    this.planetService = planetService;
-  }
-
-  public boolean isValid(Weather weather) {
-    try {
-      Planet planet = planetService.findById(weather.getPlanet().getId());
-    } catch (EmptyResultDataAccessException ex) {
-      return false;
-    }
-    WeatherValidator validator = validators.get(weather.getPlanet().getName());
-    if (validator == null) {
-      throw new IllegalArgumentException(String.format("No validator for planet: %s", weather.getPlanet().getName()));
-    }
-    return validator.isValid(weather);
   }
 
   public int calculateRank(Weather weather) {
     RankCalculator calculator = calculators.get(weather.getPlanet().getName());
-    if (calculator == null) {
-      throw new IllegalArgumentException(String.format("No calculator for planet: %s", weather.getPlanet().getName()));
-    }
     return calculator.calculateRank(weather);
   }
 
@@ -57,7 +38,7 @@ public class WeatherService {
     return metric.compute(weather);
   }
 
-  public Weather findById(long id) {
+  public Weather findById(long id) throws EmptyResultDataAccessException {
     Optional<Weather> weather = this.weatherDao.findById(id);
     if (weather.isEmpty()) {
       throw new EmptyResultDataAccessException(String.format(
@@ -68,17 +49,17 @@ public class WeatherService {
   }
 
   public Weather create(Weather weather) {
-    if (isValid(weather)) {
+    if (validator.isValid(weather)) {
       return this.weatherDao.save(weather);
     }
     return null;
   }
 
   public Weather update(Weather weather) {
-    if (isValid(weather)) {
-      return this.weatherDao.save(weather);
+    if (validator.isValid(weather)) {
+      return this.weatherDao.update(weather);
     }
-    return this.weatherDao.update(weather);
+    return null;
   }
 
   public void deleteById(long id) {
@@ -96,15 +77,14 @@ public class WeatherService {
   public List<Weather> getPlanetWeathersSortedBy(Planet planet, WeatherComparator comparator) {
     return findAllByPlanet(planet.getName())
         .stream()
-        .sorted()
+        .sorted(comparator)
         .toList();
   }
 
   public List<Weather> getPlanetWeathersRankedInRange(Planet planet, long lowRank, long highRank) {
     return findAllByPlanet(planet.getName())
         .stream()
-        .filter(weather -> calculateRank(weather) > lowRank && calculateRank(weather) < highRank)
+        .filter(weather -> calculateRank(weather) >= lowRank && calculateRank(weather) <= highRank)
         .toList();
   }
-
 }

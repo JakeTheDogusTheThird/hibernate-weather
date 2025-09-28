@@ -36,5 +36,4 @@ public class MarsWeatherRankCalculator implements RankCalculator {
   private double scoreParameter(double value, double ideal, double normalization) {
     return MAX_PARAMETER_SCORE - Math.abs(value - ideal) / normalization;
   }
-
 }

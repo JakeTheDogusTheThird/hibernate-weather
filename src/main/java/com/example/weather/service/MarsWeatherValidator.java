@@ -13,13 +13,28 @@ public class MarsWeatherValidator implements WeatherValidator {
 
   @Override
   public boolean isValid(Weather weather) {
-    return areReferencesValid(weather)
-        && weather.getWindSpeed() >= MIN_WIND_SPEED
-        && weather.getWindSpeed() <= MAX_WIND_SPEED
-        && weather.getTemperature() > MIN_TEMPERATURE
-        && weather.getTemperature() <= MAX_TEMPERATURE
-        && weather.getPressure() > MIN_PRESSURE_PA
-        && weather.getPressure() < MAX_PRESSURE_PA
-        && PlanetName.MARS.equals(weather.getPlanet().getName());
+    return isMars(weather.getPlanet().getName())
+        && isWindSpeedValid(weather.getWindSpeed())
+        && isTemperatureValid(weather.getTemperature())
+        && isPressureValid(weather.getPressure());
+  }
+
+  private boolean isMars(PlanetName planet) {
+    return PlanetName.MARS.equals(planet);
+  }
+
+  private boolean isWindSpeedValid(int windSpeed) {
+    return windSpeed >= MIN_WIND_SPEED
+        && windSpeed <= MAX_WIND_SPEED;
+  }
+
+  private boolean isTemperatureValid(int temperature) {
+    return temperature >= MIN_TEMPERATURE
+        && temperature <= MAX_TEMPERATURE;
+  }
+
+  private boolean isPressureValid(int pressure) {
+    return pressure >= MIN_PRESSURE_PA
+        && pressure <= MAX_PRESSURE_PA;
   }
 }

@@ -13,22 +13,28 @@ public class EarthWeatherValidator implements WeatherValidator {
 
   @Override
   public boolean isValid(Weather weather) {
-    return areReferencesValid(weather)
-        && isValidWindSpeed(weather.getWindSpeed())
-        && isValidTemperature(weather.getTemperature())
-        && isValidPressure(weather.getPressure())
-        && PlanetName.EARTH.equals(weather.getPlanet().getName());
+    return isEarth(weather.getPlanet().getName())
+        && isWindSpeedValid(weather.getWindSpeed())
+        && isTemperatureValid(weather.getTemperature())
+        && isPressureValid(weather.getPressure());
   }
 
-  private boolean isValidWindSpeed(int windSpeed) {
-    return windSpeed > MIN_WIND_SPEED && windSpeed < MAX_WIND_SPEED;
+  private static boolean isEarth(PlanetName planet) {
+    return PlanetName.EARTH.equals(planet);
   }
 
-  private boolean isValidTemperature(int temperature) {
-    return temperature > MIN_TEMPERATURE && temperature < MAX_TEMPERATURE;
+  private boolean isWindSpeedValid(int windSpeed) {
+    return windSpeed > MIN_WIND_SPEED
+        && windSpeed < MAX_WIND_SPEED;
   }
 
-  private boolean isValidPressure(int pressure) {
-    return pressure > MIN_PRESSURE_PA && pressure < MAX_PRESSURE_PA;
+  private boolean isTemperatureValid(int temperature) {
+    return temperature > MIN_TEMPERATURE
+        && temperature < MAX_TEMPERATURE;
+  }
+
+  private boolean isPressureValid(int pressure) {
+    return pressure > MIN_PRESSURE_PA
+        && pressure < MAX_PRESSURE_PA;
   }
 }

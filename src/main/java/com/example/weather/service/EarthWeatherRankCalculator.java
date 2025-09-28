@@ -10,6 +10,7 @@ public class EarthWeatherRankCalculator implements RankCalculator {
   private static final int MIN_PARAMETER_SCORE = 0;
   private static final int MAX_RANK = 1000;
   private static final int MAX_HUMAN_WIND = 30;
+  private static final int MIN_HUMAN_WIND = 0;
   private static final int IDEAL_PRESSURE_PA = 101_324;
   private static final int MIN_PRESSURE_PA = 74_662;
   private static final int MAX_PRESSURE_PA = 127_990;
@@ -32,7 +33,7 @@ public class EarthWeatherRankCalculator implements RankCalculator {
   }
 
   private double scoreTemperature(int temperature) {
-    if (temperature <= MIN_TEMPERATURE || temperature >= MAX_TEMPERATURE) {
+    if (temperature < MIN_TEMPERATURE || temperature > MAX_TEMPERATURE) {
       return MIN_PARAMETER_SCORE;
     }
     return MAX_PARAMETER_SCORE - (double) Math.abs(temperature - IDEAL_TEMPERATURE) / IDEAL_TEMPERATURE;
@@ -46,7 +47,7 @@ public class EarthWeatherRankCalculator implements RankCalculator {
   }
 
   private double scoreWind(int windSpeed) {
-    if (windSpeed >= MAX_HUMAN_WIND) {
+    if (windSpeed < MIN_HUMAN_WIND || windSpeed > MAX_HUMAN_WIND) {
       return MIN_PARAMETER_SCORE;
     }
     return MAX_PARAMETER_SCORE - windSpeed / (double) MAX_HUMAN_WIND;
