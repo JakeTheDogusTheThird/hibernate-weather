@@ -47,14 +47,17 @@ public class WeatherServiceTest {
         MetricType.WIND_STRENGTH, new WindStrengthMetrics(),
         MetricType.WIND_PRESSURE, new DynamicPressureMetrics()
     );
-    WeatherComparator weatherComparator = new WeatherComparator(new EarthWeatherRankCalculator());
+    Map<PlanetName, WeatherComparator> comparators = Map.of(
+        PlanetName.EARTH, new WeatherComparator(new EarthWeatherRankCalculator()),
+        PlanetName.MARS, new WeatherComparator(new MarsWeatherRankCalculator())
+    );
 
     weatherService = new WeatherService(
         weatherDao,
         validator,
         calculators,
         metrics,
-        weatherComparator
+        comparators
     );
   }
 
@@ -221,7 +224,7 @@ public class WeatherServiceTest {
   }
 
   @Test
-  void getPlanetWeathersSortedBy_givenComparatorAndPlanet_returnsSortedWeathersByPlanet() {
+  void getPlanetWeathersSortedBy_givenComparatorAndPlanet_returnsSortedWeathersByPlanetWeathers() {
     Weather weather1 = new Weather(
         new Planet(PlanetName.EARTH),
         LocalDate.now(),
@@ -244,6 +247,7 @@ public class WeatherServiceTest {
         0
     );
 
+    WeatherComparator comparator = new WeatherComparator(new EarthWeatherRankCalculator());
     List<Weather> weathers = List.of(weather1, weather2, weather3);
     List<Weather> expectedSortedWeathers = List.of(weather1, weather3, weather2);
     when(weatherDao.findAllByPlanet(PlanetName.EARTH.toString())).thenReturn(weathers);

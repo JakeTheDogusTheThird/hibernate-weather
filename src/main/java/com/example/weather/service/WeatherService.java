@@ -15,20 +15,20 @@ public class WeatherService {
   private final WeatherValidator validator;
   private final Map<PlanetName, RankCalculator> calculators;
   private final Map<MetricType, WeatherMetrics> metrics;
-  private final WeatherComparator weatherComparator;
+  private final Map<PlanetName, WeatherComparator> comparators;
 
   public WeatherService(
       WeatherDao weatherDao,
       WeatherValidator validator,
       Map<PlanetName, RankCalculator> calculators,
       Map<MetricType, WeatherMetrics> metrics,
-      WeatherComparator weatherComparator
+      Map<PlanetName, WeatherComparator> comparators
   ) {
     this.weatherDao = weatherDao;
     this.validator = validator;
     this.calculators = calculators;
     this.metrics = metrics;
-    this.weatherComparator = weatherComparator;
+    this.comparators = comparators;
   }
 
   public int calculateRank(Weather weather) {
@@ -39,6 +39,14 @@ public class WeatherService {
   public double computeWeatherMetric(Weather weather, MetricType metricType) {
     WeatherMetrics metric = this.metrics.get(metricType);
     return metric.compute(weather);
+  }
+
+  public double computeWeatherWindStrength(Weather weather) {
+    return computeWeatherMetric(weather, MetricType.WIND_PRESSURE);
+  }
+
+  public double computeWeatherWindPressure(Weather weather) {
+    return computeWeatherMetric(weather, MetricType.WIND_PRESSURE);
   }
 
   public Weather findById(long id) throws EmptyResultDataAccessException {
@@ -80,7 +88,7 @@ public class WeatherService {
   public List<Weather> getSortedWeathersByPlanet(Planet planet) {
     return findAllByPlanet(planet.getName())
         .stream()
-        .sorted(this.weatherComparator)
+        .sorted(this.comparators.get(planet.getName()))
         .toList();
   }
 
