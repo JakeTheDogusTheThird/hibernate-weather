@@ -1,7 +1,7 @@
 package com.example.weather.util;
 
-import com.example.weather.models.Planet;
-import com.example.weather.models.Weather;
+import com.example.weather.model.Planet;
+import com.example.weather.model.Weather;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;

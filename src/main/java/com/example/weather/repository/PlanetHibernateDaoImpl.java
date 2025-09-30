@@ -1,6 +1,6 @@
-package com.example.weather.repositories;
+package com.example.weather.repository;
 
-import com.example.weather.models.Planet;
+import com.example.weather.model.Planet;
 import org.hibernate.SessionFactory;
 
 public class PlanetHibernateDaoImpl

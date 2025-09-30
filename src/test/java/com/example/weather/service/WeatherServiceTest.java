@@ -1,10 +1,10 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Planet;
-import com.example.weather.models.PlanetName;
-import com.example.weather.models.Weather;
-import com.example.weather.repositories.EmptyResultDataAccessException;
-import com.example.weather.repositories.WeatherDao;
+import com.example.weather.model.Planet;
+import com.example.weather.model.PlanetName;
+import com.example.weather.model.Weather;
+import com.example.weather.repository.EmptyResultDataAccessException;
+import com.example.weather.repository.WeatherDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,12 +47,14 @@ public class WeatherServiceTest {
         MetricType.WIND_STRENGTH, new WindStrengthMetrics(),
         MetricType.WIND_PRESSURE, new DynamicPressureMetrics()
     );
+    WeatherComparator weatherComparator = new WeatherComparator(new EarthWeatherRankCalculator());
 
     weatherService = new WeatherService(
         weatherDao,
         validator,
         calculators,
-        metrics
+        metrics,
+        weatherComparator
     );
   }
 
@@ -242,11 +244,10 @@ public class WeatherServiceTest {
         0
     );
 
-    WeatherComparator comparator = new WeatherComparator(new EarthWeatherRankCalculator());
     List<Weather> weathers = List.of(weather1, weather2, weather3);
     List<Weather> expectedSortedWeathers = List.of(weather1, weather3, weather2);
     when(weatherDao.findAllByPlanet(PlanetName.EARTH.toString())).thenReturn(weathers);
-    List<Weather> result = weatherService.getPlanetWeathersSortedBy(new Planet(PlanetName.EARTH), comparator);
+    List<Weather> result = weatherService.getSortedWeathersByPlanet(new Planet(PlanetName.EARTH));
     verify(weatherDao).findAllByPlanet(PlanetName.EARTH.toString());
     assertEquals(expectedSortedWeathers, result);
   }

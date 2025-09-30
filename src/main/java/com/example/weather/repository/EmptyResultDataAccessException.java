@@ -1,4 +1,4 @@
-package com.example.weather.repositories;
+package com.example.weather.repository;
 
 public class EmptyResultDataAccessException extends RuntimeException {
   public EmptyResultDataAccessException(String message) {

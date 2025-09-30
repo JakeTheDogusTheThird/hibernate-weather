@@ -1,4 +1,4 @@
-package com.example.weather.models;
+package com.example.weather.model;
 
 public enum PlanetName {
   EARTH,

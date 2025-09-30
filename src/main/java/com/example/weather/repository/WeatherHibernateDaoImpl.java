@@ -1,6 +1,6 @@
-package com.example.weather.repositories;
+package com.example.weather.repository;
 
-import com.example.weather.models.Weather;
+import com.example.weather.model.Weather;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 

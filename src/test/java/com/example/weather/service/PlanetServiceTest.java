@@ -1,16 +1,15 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Planet;
-import com.example.weather.models.PlanetName;
-import com.example.weather.repositories.EmptyResultDataAccessException;
-import com.example.weather.repositories.PlanetDao;
+import com.example.weather.model.Planet;
+import com.example.weather.model.PlanetName;
+import com.example.weather.repository.EmptyResultDataAccessException;
+import com.example.weather.repository.PlanetDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Weather;
+import com.example.weather.model.Weather;
 
 public class EarthWeatherRankCalculator implements RankCalculator {
   private static final int IDEAL_TEMPERATURE = 20;

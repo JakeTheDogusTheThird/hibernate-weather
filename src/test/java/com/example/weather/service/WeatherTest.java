@@ -1,6 +1,6 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Weather;
+import com.example.weather.model.Weather;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

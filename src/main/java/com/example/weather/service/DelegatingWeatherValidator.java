@@ -1,7 +1,7 @@
 package com.example.weather.service;
 
-import com.example.weather.models.PlanetName;
-import com.example.weather.models.Weather;
+import com.example.weather.model.PlanetName;
+import com.example.weather.model.Weather;
 
 import java.util.Map;
 

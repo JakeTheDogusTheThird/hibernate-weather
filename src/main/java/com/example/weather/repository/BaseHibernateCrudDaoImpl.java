@@ -1,4 +1,4 @@
-package com.example.weather.repositories;
+package com.example.weather.repository;
 
 import jakarta.persistence.Table;
 import org.hibernate.Session;

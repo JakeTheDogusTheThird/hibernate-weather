@@ -1,10 +1,10 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Planet;
-import com.example.weather.models.PlanetName;
-import com.example.weather.models.Weather;
-import com.example.weather.repositories.EmptyResultDataAccessException;
-import com.example.weather.repositories.WeatherDao;
+import com.example.weather.model.Planet;
+import com.example.weather.model.PlanetName;
+import com.example.weather.model.Weather;
+import com.example.weather.repository.EmptyResultDataAccessException;
+import com.example.weather.repository.WeatherDao;
 
 import java.util.List;
 import java.util.Map;
@@ -15,17 +15,20 @@ public class WeatherService {
   private final WeatherValidator validator;
   private final Map<PlanetName, RankCalculator> calculators;
   private final Map<MetricType, WeatherMetrics> metrics;
+  private final WeatherComparator weatherComparator;
 
   public WeatherService(
       WeatherDao weatherDao,
       WeatherValidator validator,
       Map<PlanetName, RankCalculator> calculators,
-      Map<MetricType, WeatherMetrics> metrics
+      Map<MetricType, WeatherMetrics> metrics,
+      WeatherComparator weatherComparator
   ) {
     this.weatherDao = weatherDao;
     this.validator = validator;
     this.calculators = calculators;
     this.metrics = metrics;
+    this.weatherComparator = weatherComparator;
   }
 
   public int calculateRank(Weather weather) {
@@ -74,10 +77,10 @@ public class WeatherService {
     return this.weatherDao.findAllByPlanet(name.toString());
   }
 
-  public List<Weather> getPlanetWeathersSortedBy(Planet planet, WeatherComparator comparator) {
+  public List<Weather> getSortedWeathersByPlanet(Planet planet) {
     return findAllByPlanet(planet.getName())
         .stream()
-        .sorted(comparator)
+        .sorted(this.weatherComparator)
         .toList();
   }
 

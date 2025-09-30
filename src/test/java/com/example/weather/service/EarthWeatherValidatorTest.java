@@ -1,8 +1,8 @@
 package com.example.weather.service;
 
-import com.example.weather.models.Planet;
-import com.example.weather.models.PlanetName;
-import com.example.weather.models.Weather;
+import com.example.weather.model.Planet;
+import com.example.weather.model.PlanetName;
+import com.example.weather.model.Weather;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
